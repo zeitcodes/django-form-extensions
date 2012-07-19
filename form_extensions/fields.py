@@ -17,14 +17,6 @@ CREDIT_CARD_PATTERNS = {
 }
 
 
-class UnicodeSafeCharField(CharField):
-    def clean(self, value):
-        try:
-            return super(UnicodeSafeCharField, self).clean(value)
-        except UnicodeDecodeError, e:
-            raise ValidationError(e)
-
-
 class HoneypotField(Field):
     widget = HoneypotWidget
 
