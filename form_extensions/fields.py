@@ -1,7 +1,9 @@
 from django.forms.fields import Field, CharField, FileField, ImageField
+from django.forms.widgets import Textarea
 from form_extensions.widgets import HoneypotWidget, MultiFileInput
 from django.core.exceptions import ValidationError
 from django.core import validators
+from form_extensions.utils import bleach, replace_elements, remove_empty_paragraphs
 import re
 
 
@@ -24,6 +26,23 @@ class HoneypotField(Field):
         if self.initial in EMPTY_VALUES and value in EMPTY_VALUES or value == self.initial:
             return value
         raise ValidationError('Anti-spam field changed in value.')
+
+
+class HTMLField(Field):
+    widget = Textarea
+
+    def __init__(self, allowed_tags, allowed_attributes={}, allowed_styles={}, element_replacements={}, *args, **kwargs):
+        super(HTMLField, self).__init__(*args, **kwargs)
+        self.allowed_tags = allowed_tags
+        self.allowed_attributes = allowed_attributes
+        self.allowed_styles = allowed_styles
+        self.element_replacements = element_replacements
+
+    def clean(self, value):
+        value = utils.replace_elements(value, self.element_replacements)
+        value = utils.remove_empty_paragraphs(value)
+        value = utils.bleach(value, self.allowed_tags, self.allowed_attributes, self.allowed_styles)
+        return super(HTMLField, self).clean(value)
 
 
 class USCurrencyField(CharField):
