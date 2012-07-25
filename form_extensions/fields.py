@@ -39,9 +39,9 @@ class HTMLField(Field):
         self.element_replacements = element_replacements
 
     def clean(self, value):
-        value = utils.replace_elements(value, self.element_replacements)
-        value = utils.remove_empty_paragraphs(value)
-        value = utils.bleach(value, self.allowed_tags, self.allowed_attributes, self.allowed_styles)
+        value = replace_elements(value, self.element_replacements)
+        value = remove_empty_paragraphs(value)
+        value = bleach(value, self.allowed_tags, self.allowed_attributes, self.allowed_styles)
         return super(HTMLField, self).clean(value)
 
 
