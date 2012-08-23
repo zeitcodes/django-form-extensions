@@ -75,7 +75,7 @@ def remove_empty_paragraphs(text):
     for element in doc.cssselect('p'):
         text = element.text_content()
         text = text.strip()
-        if text == '':
+        if text == '' and len(element) == 0:
             element.drop_tree()
     return _tostring(doc)
 
