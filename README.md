@@ -23,7 +23,7 @@ Fields
 Presents an alluring target for robo-spammers. Raises a form error if tampered with.
 
 ###HTMLField
-Whitelist HTML elements, attributes, and styles and return the resulting HTML with illegal items stripped out.
+Whitelist HTML tags, attributes, and styles and return the resulting HTML with illegal items stripped out.
 
 ###USCurrencyField
 Take in all common forms of representing US currency and return a decimal value.
