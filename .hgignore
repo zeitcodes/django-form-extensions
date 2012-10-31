@@ -9,5 +9,6 @@ syntax: glob
 *.cache
 .svn*
 .git*
+.idea*
 *.egg-info
 Thumbs.db
