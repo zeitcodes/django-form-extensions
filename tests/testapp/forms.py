@@ -4,7 +4,10 @@ from form_extensions.fields import HoneypotField, HTMLField, USCurrencyField, Cr
 
 ALLOWED_TAGS = ['a', 'em', 'h1', 'h2', 'p', 'strong']
 ALLOWED_ATTRIBUTES = ['class','id','style','title',]
-ALLOWED_STYLES = ['border','height','width',]
+ALLOWED_STYLES = {
+    '*': ['display', 'clear', 'text-align'],
+    'p': ['border*'],
+}
 ELEMENT_REPLACEMENTS = {
     'b': 'strong',
     'i': 'em',
@@ -30,7 +33,7 @@ class HTMLAttrsForm(forms.Form):
     html = HTMLField(ALLOWED_TAGS, ALLOWED_ATTRIBUTES)
 
 class HTMLStylesForm(forms.Form):
-    html = HTMLField(ALLOWED_TAGS, allowed_styles=ALLOWED_STYLES)
+    html = HTMLField(ALLOWED_TAGS, ALLOWED_ATTRIBUTES, ALLOWED_STYLES)
 
 class HTMLEleReplaceForm(forms.Form):
     html = HTMLField(ALLOWED_TAGS, element_replacements=ELEMENT_REPLACEMENTS)

@@ -6,6 +6,7 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from lxml import objectify
 from .forms import HoneypotForm, HoneypotInitForm, USCurrencyForm, CreditCardForm
 from .forms import HTMLForm, HTMLTagsForm, HTMLAttrsForm, HTMLStylesForm, HTMLEleReplaceForm
 
@@ -55,6 +56,56 @@ class HTMLFieldTests(TestCase):
         form = HTMLForm(data)
         self.assertTrue(form.is_valid())
 
+    def test_tags_no_change(self):
+        input = '<p>Testing tags.</p>'
+        data = {
+            'html': input
+        }
+        form = HTMLTagsForm(data)
+        self.assertTrue(form.is_valid())
+        output = form.cleaned_data['html']
+        self.assertEqual(input, output)
+
+    def test_tags_removes_tags(self):
+        input = '<d>This should be without tags after.</d>'
+        data = {
+            'html': input
+        }
+        form = HTMLTagsForm(data)
+        self.assertTrue(form.is_valid())
+        output = form.cleaned_data['html']
+        self.assertEqual(input, output)
+
+    def test_attrs_no_change(self):
+        input = '<p class="example">Testing attributes.</p>'
+        data = {
+            'html': input
+        }
+        form = HTMLAttrsForm(data)
+        self.assertTrue(form.is_valid())
+        output = form.cleaned_data['html']
+        self.assertEqual(input, output)
+
+
+    def test_styles_no_change(self):
+        input = '<p style="border: 2px solid black;">Testing styles.</p>'
+        data = {
+            'html': input
+        }
+        form = HTMLStylesForm(data)
+        self.assertTrue(form.is_valid())
+        output = form.cleaned_data['html']
+        self.assertEqual(input, output)
+
+    def test_element_replace_no_change(self):
+        input = '<b>Testing element replacements.</b>'
+        data = {
+            'html': input
+        }
+        form = HTMLEleReplaceForm(data)
+        self.assertTrue(form.is_valid())
+        output = form.cleaned_data['html']
+        self.assertEqual(input, output)
 
 class USCurrencyFieldTests(TestCase):
 
