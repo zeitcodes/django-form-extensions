@@ -76,6 +76,16 @@ class HTMLFieldTests(TestCase):
         output = form.cleaned_data['html']
         self.assertEqual(input, output)
 
+    def test_tags_escaped(self):
+        data = {
+            'html': '<p>This has an <b>escaped</b> tag.</p>'
+        }
+        form = HTMLTagsForm(data)
+        self.assertTrue(form.is_valid())
+        expected = '<p>This has an &lt;b&gt;escaped&lt;/b&gt;tag.</p>'
+        output = form.cleaned_data['html']
+        self.assertEqual(expected, output)
+
     def test_attrs_no_change(self):
         input = '<p class="example">Testing attributes.</p>'
         data = {
@@ -85,6 +95,16 @@ class HTMLFieldTests(TestCase):
         self.assertTrue(form.is_valid())
         output = form.cleaned_data['html']
         self.assertEqual(input, output)
+
+    def test_attrs_remove(self):
+        data = {
+            'html': '<p align="right">Testing attributes.</p>'
+        }
+        form = HTMLTagsForm(data)
+        self.assertTrue(form.is_valid())
+        expected = '<p>Testing attributes.</p>'
+        output = form.cleaned_data['html']
+        self.assertEqual(expected, output)
 
 
     def test_styles_no_change(self):
@@ -97,15 +117,35 @@ class HTMLFieldTests(TestCase):
         output = form.cleaned_data['html']
         self.assertEqual(input, output)
 
-    def test_element_replace_no_change(self):
-        input = '<b>Testing element replacements.</b>'
+    def test_styles_remove(self):
         data = {
-            'html': input
+            'html': '<p style="background-color:red;">Testing styles.</p>'
+        }
+        form = HTMLTagsForm(data)
+        self.assertTrue(form.is_valid())
+        expected = '<p>Testing styles.</p>'
+        output = form.cleaned_data['html']
+        self.assertEqual(expected, output)
+
+    def test_element_replace_no_change(self):
+        data = {
+            'html': '<b>Testing element replacements.</b>'
         }
         form = HTMLEleReplaceForm(data)
         self.assertTrue(form.is_valid())
+        expected = '<strong>Testing element replacements.</strong>'
         output = form.cleaned_data['html']
-        self.assertEqual(input, output)
+        self.assertEqual(expected, output)
+
+    def test_element_replace_escaped(self):
+        data = {
+            'html': '<p>Testing element <t>replacements</t>.</p>'
+        }
+        form = HTMLTagsForm(data)
+        self.assertTrue(form.is_valid())
+        expected = '<p>Testing element &lt;t&gt;replacements&lt;/t&gt;.</p>'
+        output = form.cleaned_data['html']
+        self.assertEqual(expected, output)
 
 class USCurrencyFieldTests(TestCase):
 
