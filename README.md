@@ -6,7 +6,7 @@ Django form extensions implements serveral usefull Field and Widget classes for 
 Installation
 ------------
 
-Run `pip install hg+https://bitbucket.org/nextscreenlabs/django-form-extensions`
+Run `pip install django-form-extensions`
 
 Fields
 ------

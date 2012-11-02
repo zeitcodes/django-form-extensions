@@ -23,7 +23,7 @@ def get_readme():
     return ''
 
 setup(
-    name = 'Django Form Extensions',
+    name = 'django-form-extensions',
     version = __import__('form_extensions').get_version().replace(' ', '-'),
     url = 'https://bitbucket.org/nextscreenlabs/django-form-extensions',
     author = 'Jason Christa',
@@ -36,7 +36,7 @@ setup(
     license = read_file('LICENSE'),
     classifiers = [
         'Environment :: Web Environment',
-        'License :: OSI Approved :: BSD Liscense',
+        'License :: OSI Approved :: BSD License',
         'Framework :: Django',
         'Programming Language :: Python',
     ],
