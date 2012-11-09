@@ -1,14 +1,7 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
-from lxml import objectify
 from .forms import HoneypotForm, HoneypotInitForm, USCurrencyForm, CreditCardForm
 from .forms import HTMLForm, HTMLTagsForm, HTMLAttrsForm, HTMLStylesForm, HTMLEleReplaceForm
+
 
 class HoneypotFieldTests(TestCase):
 
@@ -39,6 +32,7 @@ class HoneypotFieldTests(TestCase):
         }
         form = HoneypotInitForm(data)
         self.assertFalse(form.is_valid())
+
 
 class HTMLFieldTests(TestCase):
 
@@ -106,7 +100,6 @@ class HTMLFieldTests(TestCase):
         output = form.cleaned_data['html']
         self.assertEqual(expected, output)
 
-
     def test_styles_no_change(self):
         input = '<p style="border: 2px solid black;">Testing styles.</p>'
         data = {
@@ -146,6 +139,7 @@ class HTMLFieldTests(TestCase):
         expected = '<p>Testing element &lt;t&gt;replacements&lt;/t&gt;.</p>'
         output = form.cleaned_data['html']
         self.assertEqual(expected, output)
+
 
 class USCurrencyFieldTests(TestCase):
 
@@ -190,6 +184,7 @@ class USCurrencyFieldTests(TestCase):
         }
         form = USCurrencyForm(data)
         self.assertTrue(form.is_valid())
+
 
 class CreditCardFieldTests(TestCase):
 
