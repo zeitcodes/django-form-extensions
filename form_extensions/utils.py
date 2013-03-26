@@ -64,7 +64,9 @@ def replace_elements(text, element_replacements={}):
         doc = html.fragment_fromstring(text, create_parent=True)
         selection = ','.join(element_replacements.keys())
         for element in doc.cssselect(selection):
-            element.tag = element_replacements[element.tag]
+            style = element.attrib.get('style', '')
+            if 'page-break' not in style:
+                element.tag = element_replacements[element.tag]
         return _tostring(doc)
     else:
         return text
